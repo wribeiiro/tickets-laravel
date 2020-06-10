@@ -16,6 +16,8 @@ use Illuminate\Support\Facades\Route;
 /*Route::get('/', function () {
     return view('welcome');
 });*/
-Route::resource('/', HomeController::class);
+//Route::resource('/', HomeController::class);
+Route::get('/', 'AuthController@auth');
+Route::get('home', 'HomeController@index');
 
-Route::get('session', 'SessionController@session');
+Route::post('login', 'AuthController@login');
