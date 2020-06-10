@@ -41,7 +41,7 @@
     <link href={{ asset("assets/css/app.css?v=")}} {{time()}} rel="stylesheet">
 </head>
 <script>
-    const BASE_URL = '';
+    const BASE_URL = "{{url('/')}}/";
 </script>
 
 <body id="page-top">

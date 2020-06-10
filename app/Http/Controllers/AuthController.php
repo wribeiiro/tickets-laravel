@@ -32,14 +32,20 @@ class AuthController extends Controller {
             return $this->auth();
         }
 
-        /*Session::put('sessionUser', [
-            "" => "",
-            "" => "",
-            "" => "",
-            "" => "",
-        ]);*/
+        Session::put('sessionUser', [
+            'id'         => $userData[0]->cod,
+            'firstname'  => $userData[0]->nome,
+            'email'      => $userData[0]->nome . '@empr.com.br',
+            'isLoggedIn' => true
+        ]);
 
-        dd($userData);
+        return redirect('home');
+    }
+
+    public function logoff() {
+        Session::forget('sessionUser');
+
+        return $this->auth();
     }
 
     public function auth() {

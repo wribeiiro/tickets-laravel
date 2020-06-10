@@ -3,21 +3,19 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\HomeModel;
+//use App\Models\HomeModel;
 
 class HomeController extends Controller {
 
     private $objectHome;
 
     public function __construct() {
-        $this->objectHome = new HomeModel();
+        //$this->objectHome = new HomeModel();
     }
 
     public function index() {
-        $arrayData = $this->objectHome->paginate(15);
+        //$arrayData = $this->objectHome->paginate(15);
 
-        return view('home.index', [
-            'arrayData' => $arrayData
-        ]);
+        return view('home.index');
     }
 }

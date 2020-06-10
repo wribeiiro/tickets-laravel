@@ -21,3 +21,4 @@ Route::get('/', 'AuthController@auth');
 Route::get('home', 'HomeController@index');
 
 Route::post('login', 'AuthController@login');
+Route::get('logoff', 'AuthController@logoff');
