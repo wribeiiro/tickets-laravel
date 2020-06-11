@@ -1,12 +1,19 @@
 var tableTickets;
 
+function populateCardsDash(data) {
+    $("#totalTickets").text(data.totalTickets);
+    $("#totalTicketsMonth").text(data.totalTicketsMonth);
+    $("#myTickets").text(data.myTickets);
+    $("#openTickets").text(data.myOpenTickets);
+}
+
 function loadCardTickets(monthYear) {
     
     $.ajax({
-        url: BASE_URL + '/Ticket/getCardTicket',
-        type: "GET",
+        url: '/getCardTicket',
+        method: "GET",
         data: {
-            monthYear: monthYear
+            monthYear: monthYear,
         },
         dataType: 'JSON',
         success: (d) => {
@@ -24,18 +31,11 @@ function loadCardTickets(monthYear) {
     });
 }
 
-function populateCardsDash(data) {
-    $("#totalTickets").text(data.totalTickets);
-    $("#totalTicketsMonth").text(data.totalTicketsMonth);
-    $("#myTickets").text(data.myTickets);
-    $("#openTickets").text(data.myOpenTickets);
-}
-
 function loadChartTickets(monthYear) {
     
     $.ajax({
-        url: BASE_URL + '/Ticket/getTicket',
-        type: "GET",
+        url:  '/getTicket',
+        method: "GET",
         data: {
             monthYear: monthYear
         },

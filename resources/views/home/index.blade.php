@@ -134,6 +134,7 @@
     </div>
 </div>
 
+@include('layouts.scripts')
 <script src={{asset("assets/js/pages/tickets.js?v=1")}}></script>
 
 <script>
@@ -169,3 +170,5 @@ function checkOptionsFilter() {
     $('#selectYear').val(year)
 }
 </script>
+
+@include('layouts.footer')

@@ -17,8 +17,18 @@ use Illuminate\Support\Facades\Route;
     return view('welcome');
 });*/
 //Route::resource('/', HomeController::class);
-Route::get('/', 'AuthController@auth');
-Route::get('home', 'HomeController@index');
+
 
 Route::post('login', 'AuthController@login');
 Route::get('logoff', 'AuthController@logoff');
+Route::get('auth',   'AuthController@auth');
+Route::get('/getTicket',     'TicketController@getTicket');
+Route::get('/getCardTicket', 'TicketController@getCardTicket');
+
+Route::group(['middleware' => 'sessionUserNoExists'], function () {
+    Route::get('home',   'HomeController@index');
+});
+
+Route::group(['middleware' => 'sessionUserExists'], function () {
+    Route::get('/', 'AuthController@auth');
+});

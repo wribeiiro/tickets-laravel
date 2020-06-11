@@ -40,7 +40,7 @@ class TicketModel extends Model {
             $filter = "DATE_FORMAT(chamado.inicio, '%m%Y') = $monthYear";
         }
 
-        $sql = "SELECT COUNT(DISTINCT(chamado.cod)) AS total_chamados, DATE_FORMAT(chamado.inicio, '%d') as dia, DATE_FORMAT(chamado.inicio, '%d/%m/%Y') AS diamesano
+        $sql = "SELECT COUNT(DISTINCT(chamado.cod)) AS total_chamados, DATE_FORMAT(chamado.inicio, '%d') as day, DATE_FORMAT(chamado.inicio, '%d/%m/%Y') AS diamesano
         FROM chamado
         LEFT JOIN evento ON chamado.cod = evento.chamado_cod
         LEFT JOIN AREA ON evento.area_cod = area.cod
