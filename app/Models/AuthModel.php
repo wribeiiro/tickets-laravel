@@ -15,8 +15,8 @@ class AuthModel extends Model {
     }
 
     public function getUser(string $login, string $pass) {
-        $sql   = "SELECT * FROM atendente WHERE (cod = '$login' OR nome = '$login') AND senha = '$pass' LIMIT 1";
+        $sql   = "SELECT * FROM atendente WHERE (cod = ? OR nome = ?) AND senha = ? LIMIT 1";
 
-		return DB::select($sql);
+		return DB::select($sql, [$login, $login, $pass]);
     }
 }
