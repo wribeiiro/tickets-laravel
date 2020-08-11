@@ -13,10 +13,10 @@ class SessionUserExists {
      * @return mixed
      */
     public function handle($request, Closure $next) {
-        
+
         if (session()->has("sessionUser")) {
             return redirect('home');
-        } 
+        }
 
         return $next($request);
     }

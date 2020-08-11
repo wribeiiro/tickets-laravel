@@ -16,9 +16,9 @@ class AuthController extends Controller {
 
     public function login(Request $request) {
 
-        $this->validate(request(), [
+        $this->validate($request, [
             'login'     => 'required',
-            'password'  => 'required',
+            'password'  => 'required|alphaNum|min:3',
         ]);
 
         $login    = filter_var($request->login, FILTER_SANITIZE_STRING);
@@ -29,7 +29,7 @@ class AuthController extends Controller {
         if (!$userData) {
             Session::flash('errorLogin', 'Invalid credentials! :( ');
 
-            return $this->auth();
+            return redirect()->route('auth');
         }
 
         Session::put('sessionUser', [
@@ -39,7 +39,7 @@ class AuthController extends Controller {
             'isLoggedIn' => true
         ]);
 
-        return redirect('home');
+        return redirect()->route('home');
     }
 
     public function logoff() {

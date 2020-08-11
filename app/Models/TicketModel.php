@@ -37,7 +37,7 @@ class TicketModel extends Model {
         $filter = "DATE_FORMAT(chamado.inicio, '%m%Y') = DATE_FORMAT(CURDATE(), '%m%Y')";
 
         if ($monthYear) {
-            $filter = "DATE_FORMAT(chamado.inicio, '%m%Y') = $monthYear";
+            $filter = "DATE_FORMAT(chamado.inicio, '%m%Y') = ?";
         }
 
         $sql = "SELECT COUNT(DISTINCT(chamado.cod)) AS total_chamados, DATE_FORMAT(chamado.inicio, '%d') as day, DATE_FORMAT(chamado.inicio, '%d/%m/%Y') AS diamesano
@@ -54,7 +54,7 @@ class TicketModel extends Model {
         GROUP BY DAY(chamado.inicio)
         ORDER BY chamado.inicio ASC";
 
-        $result = DB::select($sql);
+        $result = DB::select($sql, [$monthYear]);
 
         return $result;
     }
@@ -64,15 +64,10 @@ class TicketModel extends Model {
         $filter = "DATE_FORMAT(chamado.inicio, '%m%Y') = DATE_FORMAT(CURDATE(), '%m%Y')";
 
         if ($monthYear) {
-            $filter = "DATE_FORMAT(chamado.inicio, '%m%Y') = $monthYear";
+            $filter = "DATE_FORMAT(chamado.inicio, '%m%Y') = ?";
         }
 
-        $sql1 = "SELECT
-            DISTINCT chamado.cod
-        FROM
-            chamado
-        INNER JOIN
-            evento ON chamado.cod = evento.chamado_cod";
+        $sql1 = "SELECT cod FROM chamado";
 
         $sql2 = "SELECT
             DISTINCT chamado.cod
@@ -90,7 +85,9 @@ class TicketModel extends Model {
         INNER JOIN
             evento ON chamado.cod = evento.chamado_cod
         WHERE
-            $filter AND evento.atendente_cod = 8 AND chamado.status = 0";
+            evento.atendente_cod = 8 AND
+            chamado.situacao = 0 AND
+            evento.concluido = 0";
 
         $sql4 = "SELECT
             DISTINCT chamado.cod
@@ -105,7 +102,7 @@ class TicketModel extends Model {
             'totalTickets' => count(DB::select($sql1)),
             'myTickets' => count(DB::select($sql2)),
             'myOpenTickets' => count(DB::select($sql3)),
-            'totalTicketsMonth' => count(DB::select($sql4))
+            'totalTicketsMonth' => count(DB::select($sql4, [$monthYear]))
         ];
     }
 

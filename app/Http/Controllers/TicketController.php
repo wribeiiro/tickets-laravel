@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\TicketModel;
+use CodeIgniter\HTTP\Response;
 
 class TicketController extends Controller {
 
@@ -14,28 +15,28 @@ class TicketController extends Controller {
         $this->objTicket = new TicketModel();
     }
 
-    public function getTicket(Request $request) { 
+    public function getTicket(Request $request) {
 
         $monthYear  = $request->monthYear;
         $result     = $this->objTicket->getTicketsMonth($monthYear);
 
         foreach ($this->returnDaysOfMonth() as $day) {
             $this->categories[$day] = [
-                'day'  => $day, 
+                'day'  => $day,
                 'data' => 0
             ];
         }
 
         foreach ($result as $row) {
             $this->categories[$row->day] = array(
-                'day'  => $row->day, 
+                'day'  => $row->day,
                 'data' => $row->total_chamados
             );
         }
 
         foreach($this->categories as $cat) {
 			$categoriesFinal[] = $cat['day'];
-			$dataFinal[]       = floatval($cat['data']);   
+			$dataFinal[]       = floatval($cat['data']);
         }
 
         $this->data['status'] = 1;
@@ -44,10 +45,11 @@ class TicketController extends Controller {
             'data'       => $dataFinal
         ];
 
-        echo json_encode($this->data);
+        return response()
+            ->json($this->data, 200);
     }
 
-    public function getCardTicket(Request $request) { 
+    public function getCardTicket(Request $request) {
 
         $monthYear = $request->monthYear;
         $result    = $this->objTicket->getCardsTickets($monthYear);
@@ -60,17 +62,18 @@ class TicketController extends Controller {
             $this->data['data']   = [];
         }
 
-        echo json_encode($this->data);
+        return response()
+            ->json($this->data, 200);
     }
 
     public function returnDaysOfMonth() {
 
         $last_day = date("Y-m-t", strtotime('today'));
-    
+
         for ($data = strtotime(date('Y-m-01')); $data <= strtotime($last_day); $data = strtotime("+1 day", $data)):
             $datas[] = date("d", $data);
         endfor;
-    
+
         return $datas;
     }
 }

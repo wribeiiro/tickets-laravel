@@ -36,42 +36,25 @@
                                         <h1 class="h4 text-gray-900 mb-4 mt-4">Welcome again!</h1>
 
                                         @if (count($errors))
-                                            <div class="form-group">
-                                                <div class="alert alert-danger fade show">
-                                                    <ul>
-                                                        @foreach($errors->all() as $error)
-                                                            <li>{{$error}}</li>
-                                                        @endforeach
-                                                    </ul>
-
-                                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                </div>
+                                            <div class="alert alert-danger alert-dismissible">
+                                                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                                <ul class="text-left">
+                                                    @foreach($errors->all() as $error)
+                                                        <li>{{$error}}</li>
+                                                    @endforeach
+                                                </ul>
                                             </div>
                                         @endif
-
-                                        @if (Session::has('errorLogin'))
-                                            <div class="form-group">
-                                                <div class="alert alert-danger fade show">
-                                                    {{ session('errorLogin') }}
-                                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        @endif
-
                                     </div>
 
-                                    <form class="user" method="post" id="form" action="{{url('login')}}">
+                                    <form class="user" method="post" id="form" action="{{route('login')}}">
                                         {{ csrf_field() }}
 
                                         <div class="form-group">
-                                            <input type="text" class="form-control form-control-user" id="login" name="login" placeholder="Type your user..." >
+                                            <input type="text" class="form-control form-control-user" id="login" name="login" placeholder="Type your user..." required>
                                         </div>
                                         <div class="form-group">
-                                            <input type="password" class="form-control form-control-user" id="password" name="password" placeholder="Type your password..." >
+                                            <input type="password" class="form-control form-control-user" id="password" name="password" placeholder="Type your password..." required>
                                         </div>
                                         <button class="btn btn-vue btn-user btn-block" type="submit"> Login </button>
                                         <hr>

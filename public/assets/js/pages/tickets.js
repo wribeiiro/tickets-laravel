@@ -8,7 +8,7 @@ function populateCardsDash(data) {
 }
 
 function loadCardTickets(monthYear) {
-    
+
     $.ajax({
         url: '/getCardTicket',
         method: "GET",
@@ -17,22 +17,22 @@ function loadCardTickets(monthYear) {
         },
         dataType: 'JSON',
         success: (d) => {
-            if (d.status = 1) {
-                populateCardsDash(d.data)
-            }
+            if (d.status = 1) populateCardsDash(d.data)
         },
         beforeSend: (b) => {
-            
+            $("#searchTicket").attr('disabled', true).find("i").removeClass("fa-search").addClass("fa-spinner fa-spin")
         },
-        complete: (c) => {},
-        error: (e) => { 
-            console.log(e) 
+        complete: (c) => {
+            $('#searchTicket').removeAttr('disabled').find('i').removeClass('fa-spinner fa-spin').addClass('fa-search')
+        },
+        error: (e) => {
+            $('#searchTicket').removeAttr('disabled').find('i').removeClass('fa-spinner fa-spin').addClass('fa-search')
         }
     });
 }
 
 function loadChartTickets(monthYear) {
-    
+
     $.ajax({
         url:  '/getTicket',
         method: "GET",
@@ -41,14 +41,12 @@ function loadChartTickets(monthYear) {
         },
         dataType: 'JSON',
         success: (d) => {
-            if (d.status = 1) {
-                geraChartLine(d.data.categories, d.data.data, `Total Tickets Opened per Day`);
-            }
+            if (d.status = 1) geraChartLine(d.data.categories, d.data.data, `Total Tickets Opened per Day`);
         },
         beforeSend: (b) => {},
         complete: (c) => {},
-        error: (e) => { 
-            console.log(e) 
+        error: (e) => {
+            console.log(e)
         }
     });
 }
@@ -64,7 +62,7 @@ function loadTableTickets() {
         ajax: {
             "url": BASE_URL + 'Ticket/getTickets',
             "dataType": "json",
-            "cache": false
+            "cache": true
         },
         lengthChange: false,
         pageLength: 50,
@@ -117,7 +115,7 @@ function loadTableTickets() {
                     customize: function (doc) {
                         doc.pageMargins                  = [10, 10, 10, 10];
                         doc.content[1].table.widths      = ['10%', '35%', '20%', '25%', '15%'];
-                        doc.styles.tableHeader.alignment = 'left';    
+                        doc.styles.tableHeader.alignment = 'left';
                     }
                 }, {
                     extend: "excelHtml5",
@@ -130,17 +128,16 @@ function loadTableTickets() {
             ],
         }],
         createdRow: function (row, data) {
-            
-            if (data.prioridade < 3) {
+
+            if (data.prioridade < 3)
                 $('td', row).eq(5).css('background', '#79a7d0').css('color', '#fff');
-            } else {
+            else
                 $('td', row).eq(5).css('background', '#f64f5c').css('color', '#fff');
-            }
 
             switch (data.andamento) {
                 case "0": $('td', row).eq(4).css('background', '#dc8512').css('color', '#fff'); break;
                 case "1": $('td', row).eq(4).css('background', '#64738F').css('color', '#fff'); break;
-                case "2": $('td', row).eq(4).css('background', '#514cf7').css('color', '#fff'); break;  
+                case "2": $('td', row).eq(4).css('background', '#514cf7').css('color', '#fff'); break;
                 case "3": $('td', row).eq(4).css('background', '#f6c763').css('color', '#fff'); break;
                 case "4": $('td', row).eq(4).css('background', '#2ecc71').css('color', '#fff'); break;
             }
@@ -173,7 +170,7 @@ function loadTableTickets() {
         ]
     });
 
-    // Adicionando inputs para pesquisa 
+    // Adicionando inputs para pesquisa
     $('#tableTickets .filtros th').each(function () {
         $(this).html('<input type="text" style="width: 100% !important;height: 24px !important; margin-bottom: 4px !important; border-radius: 3px !important" class="form-control hidden-xs" placeholder=""/>');
     });
