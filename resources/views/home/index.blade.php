@@ -162,9 +162,8 @@ function checkOptionsFilter() {
     const year = dateNow.getFullYear();
     let month = dateNow.getMonth() + 1;
 
-    if (month <= 9) {
+    if (month <= 9)
         month = `0${month}`
-    }
 
     $('#selectMonth').val(month)
     $('#selectYear').val(year)

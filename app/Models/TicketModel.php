@@ -10,11 +10,37 @@ class TicketModel extends Model {
     protected $table = 'chamados';
 
     public function getTickets() {
+
+        /*return DB::table('chamados')
+            ->select(DB::raw(
+                "DATE_FORMAT(chamado.inicio, '%d/%m/%Y') as inicio,
+                tipo.nome AS nome_tipo,
+                cliente.nome AS nome_cliente,
+                modulo.nome AS nome_modulo,
+                atendente.nome AS nome_atendente,
+                chamado.andamento AS andamento,
+                chamado.prioridade AS prioridade
+            "))
+            ->distinct()
+            ->leftJoin('evento', 'chamado.cod', '=', 'evento.chamado_cod')
+            ->leftJoin('area', 'evento.area_cod', '=', 'area.cod')
+            ->leftJoin('tipo', 'chamado.tipo_cod', '=', 'cliente.cod')
+            ->leftJoin('cliente', 'chamado.cliente_cod', '=', 'cliente.cod')
+            ->leftJoin('modulo', 'chamado.modulo_cod', '=', 'modulo.cod')
+            ->leftJoin('atendente', 'evento.atendente_cod', '=', 'atendente.cod')
+            ->leftJoin('grupo', 'cliente.grupo_cod', '=', 'grupo.cod')
+            ->leftJoin('orcamento', 'chamado.orcamento_cod', '=', 'orcamento.cod')
+            ->groupBy('chamado.cod')
+            ->orderBy('chamado.inicio', 'desc')
+            ->get();*/
+
         $sql = "SELECT DISTINCT chamado.*, DATE_FORMAT(chamado.inicio, '%d/%m/%Y') as inicio,
         tipo.nome AS nome_tipo,
         cliente.nome AS nome_cliente,
         modulo.nome AS nome_modulo,
-        atendente.nome AS nome_atendente
+        atendente.nome AS nome_atendente,
+        chamado.andamento AS andamento,
+        chamado.prioridade AS prioridade
         FROM chamado
         LEFT JOIN evento ON chamado.cod = evento.chamado_cod
         LEFT JOIN AREA ON evento.area_cod = area.cod
@@ -40,7 +66,7 @@ class TicketModel extends Model {
             $filter = "DATE_FORMAT(chamado.inicio, '%m%Y') = ?";
         }
 
-        $sql = "SELECT COUNT(DISTINCT(chamado.cod)) AS total_chamados, DATE_FORMAT(chamado.inicio, '%d') as day, DATE_FORMAT(chamado.inicio, '%d/%m/%Y') AS diamesano
+        $sql = "SELECT COUNT(DISTINCT(chamado.cod)) AS total, DATE_FORMAT(chamado.inicio, '%d') as day, DATE_FORMAT(chamado.inicio, '%d/%m/%Y') AS date
         FROM chamado
         LEFT JOIN evento ON chamado.cod = evento.chamado_cod
         LEFT JOIN AREA ON evento.area_cod = area.cod

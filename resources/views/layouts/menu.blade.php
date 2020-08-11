@@ -14,13 +14,13 @@
 
         <!-- Nav Item - Dashboard -->
         <li class="nav-item active">
-            <a class="nav-link" href="Home/">
+            <a class="nav-link" href="{{url('/')}}">
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>Dashboard</span></a>
         </li>
 
         <li class="nav-item">
-            <a class="nav-link" href="">
+            <a class="nav-link" href="{{route('tickets')}}">
             <i class="fas fa-fw fa-ticket-alt"></i>
             <span>Tickets</span></a>
         </li>
