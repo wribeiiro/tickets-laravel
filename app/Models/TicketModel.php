@@ -124,11 +124,14 @@ class TicketModel extends Model {
         WHERE
             $filter";
 
+        $sql5 = "SELECT ROUND((COUNT(chamado.cod) / 12),  2) FROM chamado WHERE YEAR(chamado.inicio) = YEAR(CURDATE())";
+
         return [
             'totalTickets' => count(DB::select($sql1)),
             'myTickets' => count(DB::select($sql2)),
             'myOpenTickets' => count(DB::select($sql3)),
-            'totalTicketsMonth' => count(DB::select($sql4, [$monthYear]))
+            'totalTicketsMonth' => count(DB::select($sql4, [$monthYear])),
+            "avgMonth" => count(DB::select($sql5))
         ];
     }
 
