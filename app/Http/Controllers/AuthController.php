@@ -27,12 +27,12 @@ class AuthController extends Controller {
         $userData = $this->authModel->getUser($login, md5($password));
 
         if (!$userData) {
-            Session::flash('errorLogin', 'Invalid credentials! :( ');
+            session()->flash('errorLogin', 'Invalid credentials! :( ');
 
             return redirect()->route('auth');
         }
 
-        Session::put('sessionUser', [
+        session()->put('sessionUser', [
             'id'         => $userData[0]->cod,
             'firstname'  => $userData[0]->nome,
             'email'      => $userData[0]->nome . '@empr.com.br',
@@ -43,7 +43,7 @@ class AuthController extends Controller {
     }
 
     public function logoff() {
-        Session::forget('sessionUser');
+        session()->forget('sessionUser');
 
         return $this->auth();
     }
